@@ -2,7 +2,6 @@
 
 namespace Xuma\SideSelect;
 
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class SideSelect extends Component
