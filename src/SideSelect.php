@@ -2,6 +2,7 @@
 
 namespace Xuma\SideSelect;
 
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class SideSelect extends Component
@@ -93,7 +94,7 @@ class SideSelect extends Component
         return view('sideselect::side-select');
     }
 
-    private function search($keyword, $collection)
+    private function search($keyword, $collection): Collection
     {
         return collect($collection)->filter(function ($item) use ($keyword) {
             if ($keyword === '' || str_contains(strtolower($item[$this->label]), strtolower($keyword))) {
