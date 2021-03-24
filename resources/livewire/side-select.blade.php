@@ -2,7 +2,7 @@
     <div class="flex-1">
         <div class="list bg-white shadow-md rounded-lg border relative">
             <div class="rounded-t-lg overflow-hidden">
-                <input type="text" placeholder="{{ __('sideselect::sideselect.search_here') }}" name="left-search" class="w-full border-b border-r-0 border-l-0 border-t-0 border-gray-200">
+                <input wire:model="notSelectedKeyword" type="text" placeholder="{{ __('sideselect::sideselect.search_here') }}" name="left-search" class="px-3 py-2 w-full border-b border-r-0 border-l-0 border-t-0 border-gray-200">
             </div>
             <ul class="p-3  max-h-56 overflow-y-scroll">
                 @forelse ($notSelected as $item)
@@ -23,11 +23,13 @@
     <div class="flex-1">
         <div class="list bg-white shadow-md rounded-lg border relative">
             <div class="rounded-t-lg overflow-hidden">
-                <input type="text" placeholder="{{ __('sideselect::sideselect.search_here') }}" name="left-search" class="w-full border-b border-r-0 border-l-0 border-t-0 border-gray-200">
+                <input wire:model="selectedKeyword" type="text" placeholder="{{ __('sideselect::sideselect.search_here') }}" name="left-search" class="px-3 py-2 w-full border-b border-r-0 border-l-0 border-t-0 border-gray-200">
             </div>
             <ul class="p-3 max-h-56 overflow-y-scroll">
                 @forelse ($selected as $item)
+                    @if($item['shown'])
                     <li wire:click="deselect({{ $item['id'] }})" class="select-none bg-blue-500 text-white rounded py-1 px-3 cursor-pointer mb-1">{{ $item['name'] }}</li>
+                    @endif
                 @empty
                     <li id="nothing-selected" class="select-none bg-gray-100 text-gray-700 rounded py-1 px-3 cursor-pointer mb-1">{{ __('sideselect::sideselect.nothing_selected') }}</li>
                 @endforelse
@@ -38,4 +40,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="selected" value="{{ collect($selected)->map(fn ($item) => $item['id'] )->join(',') }}">
+    <input type="hidden" name="not_selected" value="{{ collect($notSelected)->map(fn ($item) => $item['id'] )->join(',') }}">
+
 </div>

@@ -2,21 +2,26 @@
 
 namespace Xuma\SideSelect;
 
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class SideSelect extends Component
 {
-    public $model;
+    public string $model;
 
-    public $label;
+    public string $label;
 
-    public $tracker;
+    public string $tracker;
 
-    public $items = [];
+    public array $items = [];
 
-    public $selected = [];
+    public array $selected = [];
 
-    public $notSelected = [];
+    public array $notSelected = [];
+
+    public string $notSelectedKeyword = '';
+
+    public string $selectedKeyword = '';
 
     public function mount()
     {
@@ -58,13 +63,13 @@ class SideSelect extends Component
         }
     }
 
-    public function selectAll()
+    public function selectAll(): void
     {
         $this->selected = $this->items;
         $this->notSelected = [];
     }
 
-    public function deselectAll()
+    public function deselectAll(): void
     {
         $this->notSelected = $this->items;
         $this->selected = [];
@@ -72,6 +77,29 @@ class SideSelect extends Component
 
     public function render()
     {
+        $this->notSelected = $this->search($this->notSelectedKeyword, $this->items)->filter(function ($item) {
+            return !in_array($item['id'], array_column($this->selected, 'id'), true);
+        })->toArray();
+
+        $this->selected = collect($this->selected)->map(function ($item) {
+            $item['shown'] = true;
+
+            if ($this->selectedKeyword !== '' && !str_contains(strtolower($item['name']), strtolower($this->selectedKeyword))) {
+                $item['shown'] = false;
+            }
+
+            return $item;
+        })->toArray();
+
         return view('sideselect::side-select');
+    }
+
+    private function search($keyword, $collection)
+    {
+        return collect($collection)->filter(function ($item) use ($keyword) {
+            if ($keyword === '' || str_contains(strtolower($item['name']), strtolower($keyword))) {
+                return $item;
+            }
+        });
     }
 }
