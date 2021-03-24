@@ -51,11 +51,11 @@ class SideSelect extends Component
     private function moveItems(array &$source, array &$target, int $move): void
     {
         $item = array_filter($source, function ($item) use ($move) {
-            return $item['id'] === $move;
+            return $item[$this->tracker] === $move;
         });
 
         $source = array_filter($source, function ($item) use ($move) {
-            return $item['id'] !== $move;
+            return $item[$this->tracker] !== $move;
         });
 
         if (reset($item)) {
@@ -78,13 +78,13 @@ class SideSelect extends Component
     public function render()
     {
         $this->notSelected = $this->search($this->notSelectedKeyword, $this->items)->filter(function ($item) {
-            return !in_array($item['id'], array_column($this->selected, 'id'), true);
+            return !in_array($item[$this->tracker], array_column($this->selected, $this->tracker), true);
         })->toArray();
 
         $this->selected = collect($this->selected)->map(function ($item) {
             $item['shown'] = true;
 
-            if ($this->selectedKeyword !== '' && !str_contains(strtolower($item['name']), strtolower($this->selectedKeyword))) {
+            if ($this->selectedKeyword !== '' && !str_contains(strtolower($item[$this->label]), strtolower($this->selectedKeyword))) {
                 $item['shown'] = false;
             }
 
@@ -97,7 +97,7 @@ class SideSelect extends Component
     private function search($keyword, $collection)
     {
         return collect($collection)->filter(function ($item) use ($keyword) {
-            if ($keyword === '' || str_contains(strtolower($item['name']), strtolower($keyword))) {
+            if ($keyword === '' || str_contains(strtolower($item[$this->label]), strtolower($keyword))) {
                 return $item;
             }
         });
