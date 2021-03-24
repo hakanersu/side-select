@@ -5,6 +5,13 @@ Side select is a Livewire component which is inspired by  [Vuejs Sideselect](htt
 
 ![Sideselect](selection.gif)
 
+### Installation
+
+
+```bash
+composer require xuma/sideselect
+```
+
 ### Usage
 
 ```php
