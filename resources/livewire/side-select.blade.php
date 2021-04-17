@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <input type="hidden" name="selected" value="{{ collect($selected)->map(fn ($item) => $item['id'] )->join(',') }}">
-    <input type="hidden" name="not_selected" value="{{ collect($notSelected)->map(fn ($item) => $item['id'] )->join(',') }}">
+    <input type="hidden" name="{{ $name ?? '' }}_selected" value="{{ collect($selected)->map(fn ($item) => $item['id'] )->join(',') }}">
+    <input type="hidden" name="{{ $name ?? '' }}_not_selected" value="{{ collect($notSelected)->map(fn ($item) => $item['id'] )->join(',') }}">
 
 </div>

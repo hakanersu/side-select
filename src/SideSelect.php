@@ -7,6 +7,8 @@ use Livewire\Component;
 
 class SideSelect extends Component
 {
+    public string $name;
+    
     public string $model;
 
     public string $label;
