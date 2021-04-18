@@ -21,6 +21,8 @@ class SideSelect extends Component
 
     public array $notSelected = [];
 
+    public bool|array $setSelected = false;
+
     public string $notSelectedKeyword = '';
 
     public string $selectedKeyword = '';
@@ -30,6 +32,15 @@ class SideSelect extends Component
         $builder = $this->model;
         $model  = $builder::query();
         $this->notSelected = $this->items = $model->get([$this->tracker, $this->label])->toArray();
+
+        if ($this->setSelected) {
+            $this->notSelected = collect($this->items)->filter(function ($item) {
+                return !in_array($item['id'] , $this->setSelected);
+            })->toArray();
+            $this->selected = collect($this->items)->filter(function ($item) {
+                return in_array($item['id'] , $this->setSelected);
+            })->toArray();
+        }
     }
 
     public function select($id): void
