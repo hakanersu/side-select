@@ -27,13 +27,19 @@ class SideSelect extends Component
 
     public string $selectedKeyword = '';
 
+    public bool|array $filter = false;
+
     public function mount()
     {
         $builder = $this->model;
         $model  = $builder::query();
-        $this->notSelected = $this->items = $model->get([$this->tracker, $this->label])->toArray();
+        $fields = $this->filter ? [$this->tracker, $this->label, key($this->filter)] : [$this->tracker, $this->label];
+        $this->notSelected = $this->items = $model->get($fields)->toArray();
 
-        if ($this->setSelected) {
+        if ($this->setSelected || $this->filter) {
+            if ($this->filter) {
+                $this->setSelected = collect($this->items)->filter(function ($item) { return $item[key($this->filter)] === $this->filter[key($this->filter)]; })->pluck('id')->toArray();
+            }
             $this->notSelected = collect($this->items)->filter(function ($item) {
                 return !in_array($item['id'] , $this->setSelected);
             })->toArray();
