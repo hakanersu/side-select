@@ -29,12 +29,14 @@ class SideSelect extends Component
 
     public bool|array $filter = false;
 
+    public bool|array $collection = false;
+    
     public function mount()
     {
         $builder = $this->model;
         $model  = $builder::query();
         $fields = $this->filter ? [$this->tracker, $this->label, key($this->filter)] : [$this->tracker, $this->label];
-        $this->notSelected = $this->items = $model->get($fields)->toArray();
+        $this->notSelected = $this->items = $this->collection ?: $model->get($fields)->toArray();
 
         if ($this->setSelected || $this->filter) {
             if ($this->filter) {
