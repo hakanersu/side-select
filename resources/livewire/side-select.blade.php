@@ -6,7 +6,7 @@
             </div>
             <ul class="p-3  max-h-56 overflow-y-scroll">
                 @forelse ($notSelected as $item)
-                    <li wire:click="select({{ $item['id'] }})" class="select-none bg-gray-100 hover:bg-blue-500 hover:text-white rounded py-1 px-3 cursor-pointer text-gray-700 mb-1">{{ $item['name'] }}</li>
+                    <li wire:click="select({{ $item['id'] }})" class="select-none bg-gray-100 hover:bg-blue-500 hover:text-white rounded py-1 px-3 cursor-pointer text-gray-700 mb-1">{{ $item[$label] }}</li>
                 @empty
                     <li id="nothing-found" class="select-none bg-gray-100 text-gray-700 rounded py-1 px-3 cursor-pointer mb-1">{{ __('sideselect::sideselect.nothing_found') }}</li>
                 @endforelse
@@ -28,7 +28,7 @@
             <ul class="p-3 max-h-56 overflow-y-scroll">
                 @forelse ($selected as $item)
                     @if($item['shown'])
-                    <li wire:click="deselect({{ $item['id'] }})" class="select-none bg-blue-500 text-white rounded py-1 px-3 cursor-pointer mb-1">{{ $item['name'] }}</li>
+                    <li wire:click="deselect({{ $item['id'] }})" class="select-none bg-blue-500 text-white rounded py-1 px-3 cursor-pointer mb-1">{{ $item[$label] }}</li>
                     @endif
                 @empty
                     <li id="nothing-selected" class="select-none bg-gray-100 text-gray-700 rounded py-1 px-3 cursor-pointer mb-1">{{ __('sideselect::sideselect.nothing_selected') }}</li>
