@@ -111,6 +111,8 @@ class SideSelect extends Component
 
             return $item;
         })->toArray();
+        
+        $this->emit('side_selected', $this->selected);
 
         return view('sideselect::side-select');
     }
