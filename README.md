@@ -3,7 +3,7 @@
 Side select is a Livewire component which is inspired by  [Vuejs Sideselect](https://github.com/juliorosseti/vue-select-sides)
 
 
-![Sideselect](selection.gif)
+![Sideselect](https://raw.githubusercontent.com/hakanersu/side-select/main/selection.gif)
 
 ### Installation
 
